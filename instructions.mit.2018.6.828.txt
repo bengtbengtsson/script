@@ -5,9 +5,8 @@
 #Install VirtualBox Guest Additions
 
 #Create projectdirs
-cd
 mkdir $HOME/6.828.2018
-cd 6.828.2018
+cd $HOME/6.828.2018
 
 sudo apt update
 sudo apt upgrade -y
@@ -32,17 +31,8 @@ sudo ldconfig
 #git configure --global user.email bengt.bengtsson@gmail.com
 #git configure --global user.name "Bengt Bengtsson"
 
-#Download from mit
-#git clone https://pdos.csail.mit.edu/6.828/2018/jos.git lab
-
-#Download own code
-#git clone git@github.com:bengtbengtsson/6.828.git bbn
-
-#Copy build_tools.sh and set_up from "mine" to "mit"
-#cp bbn/set_up.sh bbn/build_tools.sh lab
-#remove bbn directory
-#rm -rf bbn
-#Update scripts as needed :-)
+#Download from my github
+#git clone git@github.com:bengtbengtsson/6.828.2018.git lab
 
 #Install for tool chain build
 #./build_tools.sh
