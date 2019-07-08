@@ -28,8 +28,8 @@ sudo ldconfig
 #sudo apt install xclip -y
 #xclip -sel clip < ~/.ssh/id_rsa.pub
 #Update with the new key at github settings
-#git configure --global user.email bengt.bengtsson@gmail.com
-#git configure --global user.name "Bengt Bengtsson"
+#git config --global user.email bengt.bengtsson@gmail.com
+#git config --global user.name "Bengt Bengtsson"
 
 #Download from my github
 #git clone git@github.com:bengtbengtsson/6.828.2018.git lab
