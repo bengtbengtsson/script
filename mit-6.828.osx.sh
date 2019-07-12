@@ -9,7 +9,7 @@
 #SET UP OSX
 
 #define project directory
-PROJECT="$HOME"/test_project_2
+PROJECT="$HOME"/6.828
 if [ ! -d "$PROJECT" ]; then
 	echo
   echo "No project directory defined, exiting"
@@ -20,7 +20,7 @@ fi
 #Install homebrew
 #Remove all programs installed by brew (if any)
 #brew remove --force $(brew list) --ignore-dependencies
-#brew install pkg-config glib pixman gcc@4.9 wget
+#brew install pkg-config glib pixman gcc@4.9 wget python@2
 
 # END OF SET UP OSX
 
@@ -262,7 +262,8 @@ function build_qemu {
   cp -r "$STORE/$PGM" "$BUILD"
   cd "$BUILD/$PGM"
 
-  ./configure --disable-werror --disable-kvm --disable-sdl --prefix=$PFX --target-list="i386-softmmu x86_64-softmmu" 
+  ./configure --disable-werror --disable-kvm --disable-sdl --prefix=$PFX --target-list="i386-softmmu x86_64-softmmu" \
+    --python=/usr/local/bin/python2
   make
   make install
 
@@ -317,7 +318,7 @@ sleep 1
 #build_binutils
 #build_gcc
 #build_gdb
-#build_qemu
+build_qemu
 #setup_git
 #clone_repos
 
