@@ -276,13 +276,14 @@ echo
 echo
 sleep 1
 
-build_gmp
-build_mpfr
-build_mpc
-build_binutils
-build_gcc
-build_gdb
-build_qemu
+#Uncomment below to install software
+#build_gmp
+#build_mpfr
+#build_mpc
+#build_binutils
+#build_gcc
+#build_gdb
+#build_qemu
 
 #Set up git
 
