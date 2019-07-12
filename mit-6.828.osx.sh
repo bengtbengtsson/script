@@ -9,7 +9,7 @@
 #SET UP OSX
 
 #define project directory
-PROJECT="$HOME"/test_project
+PROJECT="$HOME"/test_project_2
 if [ ! -d "$PROJECT" ]; then
 	echo
   echo "No project directory defined, exiting"
@@ -29,7 +29,7 @@ fi
 #used by ./configure, path to tools install (bin, lib etc)
 PFX="$PROJECT"/tools
 
-LD_LIBRARY_PATH="$PFX"
+LD_LIBRARY_PATH="$PFX/lib"
 
 #path to archived source files 
 STORE="$PROJECT"/store
@@ -276,22 +276,29 @@ echo
 echo
 sleep 1
 
-#build_gmp
-#build_mpfr
-#build_mpc
-#build_binutils
-#build_gcc
-#build_gdb
-#build_qemu
+build_gmp
+build_mpfr
+build_mpc
+build_binutils
+build_gcc
+build_gdb
+build_qemu
 
 #Set up git
 
 
 #Clone mit gits
 JOS=jos
+XV6=xv6
+
 if [ ! -d "$PROJECT/$JOS" ]; then
   cd $PROJECT
   git clone https://pdos.csail.mit.edu/6.828/2018/jos.git $JOS
+fi
+
+if [ ! -d "$PROJECT/$XV6" ]; then
+  cd $PROJECT
+  git clone git://github.com/mit-pdos/xv6-public.git $XV6
 fi
   
 #Test the tools
