@@ -269,6 +269,40 @@ function build_qemu {
   rm -rf "$BUILD/$PGM"
 }
 
+function setup_git {
+  #Generate new key
+  ssh-keygen -t rsa -b 4096 -C bengt.bengtsson@gmail.com
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_rsa
+  #Update github with the new key
+  #Copy content from ~/.ssh/id_rsa.pub
+  #Update with the new key at github settings
+  git config --global user.email bengt.bengtsson@gmail.com
+  git config --global user.name "Bengt Bengtsson"
+}
+
+function clone_repos {
+  JOS=jos
+  XV6=xv6
+
+  JOS_SRC="https://pdos.csail.mit.edu/6.828/2018/jos.git"
+  XV6_SRC="git://github.com/mit-pdos/xv6-public.git"
+  PRIVATE_REPO=git@github.com:bengtbengtsson/mit-2018.git
+
+  if [ ! -d "$PROJECT/$JOS" ]; then
+    cd $PROJECT
+    git clone $JOS_SRC $JOS
+    cd $PROJECT/$JOS
+    git remote add private $PRIVATE_REPO
+    git push --all private
+  fi
+
+  if [ ! -d "$PROJECT/$XV6" ]; then
+    cd $PROJECT
+    git clone $XV6_SRC $XV6
+  fi
+}
+
 echo
 echo
 echo "* * * * * * * * * * Building all tools needed for 6.828 * * * * * * * * * *"
@@ -276,7 +310,7 @@ echo
 echo
 sleep 1
 
-#Uncomment below to install software
+#Uncomment below to install software etc
 #build_gmp
 #build_mpfr
 #build_mpc
@@ -284,29 +318,17 @@ sleep 1
 #build_gcc
 #build_gdb
 #build_qemu
+#setup_git
+#clone_repos
 
-#Set up git
 
+#Clone gits
+#
 
-#Clone mit gits
-JOS=jos
-XV6=xv6
-
-if [ ! -d "$PROJECT/$JOS" ]; then
-  cd $PROJECT
-  git clone https://pdos.csail.mit.edu/6.828/2018/jos.git $JOS
-fi
-
-if [ ! -d "$PROJECT/$XV6" ]; then
-  cd $PROJECT
-  git clone git://github.com/mit-pdos/xv6-public.git $XV6
-fi
   
 #Test the tools
-export PATH=$PFX/bin:$PATH
-cd $PROJECT/$JOS
-make V=1
-make clean
-make qemu-nox-gdb
-
-#WHAT ABOUT GDB? WHICH VERSION IS USED?
+#export PATH=$PFX/bin:$PATH
+#cd $PROJECT/$JOS
+#make V=1
+#make clean
+#make qemu-nox
