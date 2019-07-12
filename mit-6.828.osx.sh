@@ -283,25 +283,24 @@ function setup_git {
 }
 
 function clone_repos {
-  JOS=jos
-  XV6=xv6
-
-  JOS_SRC="https://pdos.csail.mit.edu/6.828/2018/jos.git"
-  XV6_SRC="git://github.com/mit-pdos/xv6-public.git"
-  PRIVATE_REPO=git@github.com:bengtbengtsson/mit-2018.git
-
-  if [ ! -d "$PROJECT/$JOS" ]; then
+  if [ ! -d "$PROJECT/jos" ]; then
     cd $PROJECT
-    git clone $JOS_SRC $JOS
-    cd $PROJECT/$JOS
-    git remote add private $PRIVATE_REPO
-    git push --all private
+    git clone git@github.com:bengtbengtsson/mit-2018.git jos
+    cd $PROJECT/jos
+    git remote rename origin private
+    git remote add origin https://pdos.csail.mit.edu/6.828/2018/jos.git
   fi
 
-  if [ ! -d "$PROJECT/$XV6" ]; then
+  if [ ! -d "$PROJECT/xv6" ]; then
     cd $PROJECT
-    git clone $XV6_SRC $XV6
+    git clone git://github.com/mit-pdos/xv6-public.git xv6
   fi
+}
+
+function create_setup {
+ cd $PROJECT
+ echo "export PATH=$PROJECT/tools/bin:$PATH" > setup.sh
+ chmod +x setup.sh
 }
 
 echo
@@ -321,10 +320,9 @@ sleep 1
 #build_qemu
 #setup_git
 #clone_repos
+#create_setup
 
-cd $PROJECT
-echo "export PATH=$PROJECT/tools/bin:$PATH" > setup.sh
-chmod +x setup.sh
+
 
 #Test the tools
 #export PATH=$PFX/bin:$PATH
