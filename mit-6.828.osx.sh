@@ -248,7 +248,7 @@ function build_qemu {
   echo
   sleep 1
 
-  PGM="qemu"
+  PGM="6.828-qemu"
   PGM_GET="https://github.com/mit-pdos/6.828-qemu.git"
 
   if [ ! -d "$STORE/$PGM" ]; then
@@ -318,15 +318,14 @@ sleep 1
 #build_binutils
 #build_gcc
 #build_gdb
-build_qemu
+#build_qemu
 #setup_git
 #clone_repos
 
+cd $PROJECT
+echo "export PATH=$PROJECT/tools/bin:$PATH" > setup.sh
+chmod +x setup.sh
 
-#Clone gits
-#
-
-  
 #Test the tools
 #export PATH=$PFX/bin:$PATH
 #cd $PROJECT/$JOS
