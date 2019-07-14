@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
 #Bengt Bengtsson 2019-JUL-11
 
@@ -18,7 +19,8 @@ fi
 #used by ./configure, path to tools install (bin, lib etc)
 PFX="$PROJECT"/tools
 LD_LIBRARY_PATH="$PFX/lib"
-COMPILER=
+COMPILER=""
+PYTHON2="python"
 
 #path to archived source files 
 STORE="$PROJECT"/store
@@ -48,6 +50,7 @@ function prepare_osx {
 
   brew install pkg-config glib pixman gcc@4.9 wget python@2
   COMPILER="CC=/usr/local/bin/gcc-4.9"
+  PYTHON2="/usr/local/bin/python2"
 }
 
 function install_guest_additions {
@@ -269,6 +272,11 @@ function build_qemu {
     git clone $PGM_GET "$STORE/$PGM"
   fi
 
+  if [ ! -d "$STORE/$PGM" ]; then
+    echo "No $STORE/$PGM created. Aborting"
+    exit 1
+  fi
+
   if [ -d "$BUILD/$PGM" ]; then
     rm -rf "$BUILD/$PGM"
   fi
@@ -277,7 +285,7 @@ function build_qemu {
   cd "$BUILD/$PGM"
 
   ./configure --disable-werror --disable-kvm --disable-sdl --prefix=$PFX --target-list="i386-softmmu x86_64-softmmu" \
-    --python=/usr/local/bin/python2
+    --python=$PYTHON2
   make
   make install
 
