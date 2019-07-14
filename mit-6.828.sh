@@ -46,7 +46,7 @@ function create_directories {
 function prepare_osx {
   #Install homebrew
   #Remove all programs installed by brew (if needed)
-  #brew remove --force $(brew list) --ignore-dependencies
+  #brew remove --force --ignore-dependencies $(brew list) 
 
   brew install pkg-config glib pixman gcc@4.9 wget python@2
   COMPILER="CC=/usr/local/bin/gcc-4.9"
