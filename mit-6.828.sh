@@ -56,9 +56,9 @@ function prepare_osx {
 function install_guest_additions {
   #Install Virtual Box Guest Additions
   sudo apt-get update 
-  sudo apt-get upgrade
-  sudo apt-get install build-essential module-assistant
-  sudo m-a prepare
+  sudo apt-get upgrade -y
+  sudo apt-get install build-essential module-assistant -y
+  sudo m-a prepare -y
   sudo sh /media/cdrom/VBoxLinuxAdditions.run
   sudo shutdown -r now
 }
