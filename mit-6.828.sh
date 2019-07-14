@@ -60,11 +60,11 @@ function install_guest_additions {
   sudo apt-get install build-essential module-assistant
   sudo m-a prepare
   sudo sh /media/cdrom/VBoxLinuxAdditions.run
-  reboot
+  sudo shutdown -r now
 }
 
 function prepare_debian_10 {
-  sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev -y
+  sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev wget -y
 }
 
 function build_gmp {
@@ -265,13 +265,12 @@ function build_qemu {
   echo
   sleep 1
 
-  PGM="6.828-qemu"
+  PGM=qemu
   PGM_GET="https://github.com/mit-pdos/6.828-qemu.git"
 
-  if [ ! -d "$STORE/$PGM" ]; then
-    git clone $PGM_GET "$STORE/$PGM"
-  fi
-
+  cd $STORE
+  git clone $PGM_GET $PGM
+  
   if [ ! -d "$STORE/$PGM" ]; then
     echo "No $STORE/$PGM created. Aborting"
     exit 1
@@ -280,6 +279,7 @@ function build_qemu {
   if [ -d "$BUILD/$PGM" ]; then
     rm -rf "$BUILD/$PGM"
   fi
+
 
   cp -r "$STORE/$PGM" "$BUILD"
   cd "$BUILD/$PGM"
@@ -312,6 +312,7 @@ function clone_repos {
     git remote rename origin private
     git remote add origin https://pdos.csail.mit.edu/6.828/2018/jos.git
   fi
+  
 
   if [ ! -d "$PROJECT/xv6" ]; then
     cd $PROJECT
@@ -347,8 +348,6 @@ sleep 1
 #setup_git
 #clone_repos
 #create_setup
-
-
 
 #Test the tools
 #export PATH=$PFX/bin:$PATH
