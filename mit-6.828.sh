@@ -4,9 +4,7 @@
 
 #General instructions
 #Instructions on how to set up development environment for MIT 6.828 course
-#Tested on OSX 10.13.6 (macOS High Sierra)
-
-#SET UP OSX
+#Tested on OSX 10.13.6 (macOS High Sierra) and Debian 10
 
 #define project directory
 PROJECT="$HOME"/6.828
@@ -17,19 +15,10 @@ if [ ! -d "$PROJECT" ]; then
   exit 1
 fi
 
-#Install homebrew
-#Remove all programs installed by brew (if any)
-#brew remove --force $(brew list) --ignore-dependencies
-#brew install pkg-config glib pixman gcc@4.9 wget python@2
-
-# END OF SET UP OSX
-
-#BUILD TOOLS
-
 #used by ./configure, path to tools install (bin, lib etc)
 PFX="$PROJECT"/tools
-
 LD_LIBRARY_PATH="$PFX/lib"
+COMPILER=
 
 #path to archived source files 
 STORE="$PROJECT"/store
@@ -37,18 +26,43 @@ STORE="$PROJECT"/store
 #path to build directory
 BUILD="$PROJECT"/build
 
-if [ ! -d "$STORE" ]; then
-	mkdir "$STORE"
-fi
+function create_directories {
+  if [ ! -d "$STORE" ]; then
+    mkdir "$STORE"
+  fi
 
-if [ -d "$BUILD" ]; then
-	rm -rf "$BUILD"
-fi
-mkdir "$BUILD"
+  if [ -d "$BUILD" ]; then
+    rm -rf "$BUILD"
+  fi
+  mkdir "$BUILD"
 
-if [ ! -d "$PFX" ]; then
-  mkdir "$PFX"
-fi  
+  if [ ! -d "$PFX" ]; then
+    mkdir "$PFX"
+  fi  
+}
+
+function prepare_osx {
+  #Install homebrew
+  #Remove all programs installed by brew (if needed)
+  #brew remove --force $(brew list) --ignore-dependencies
+
+  brew install pkg-config glib pixman gcc@4.9 wget python@2
+  COMPILER="CC=/usr/local/bin/gcc-4.9"
+}
+
+function install_guest_additions {
+  #Install Virtual Box Guest Additions
+  sudo apt-get update 
+  sudo apt-get upgrade
+  sudo apt-get install build-essential module-assistant
+  sudo m-a prepare
+  sudo sh /media/cdrom/VBoxLinuxAdditions.run
+  reboot
+}
+
+function prepare_debian_10 {
+  sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev -y
+}
 
 function build_gmp {
   echo
@@ -199,7 +213,7 @@ function build_gcc {
     --disable-libssp --disable-libmudflap --with-newlib \
     --without-headers --enable-languages=c \
     --with-gmp=$PFX --with-mpfr=$PFX --with-mpc=$PFX \
-    MAKEINFO=missing CC=/usr/local/bin/gcc-4.9
+    MAKEINFO=missing $COMPILER
       
   make all-gcc
   make install-gcc
@@ -311,6 +325,10 @@ echo
 sleep 1
 
 #Uncomment below to install software etc
+#install_guest_additions
+#prepare_debian_10
+#prepare_osx
+#create_directories
 #build_gmp
 #build_mpfr
 #build_mpc
