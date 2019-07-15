@@ -21,6 +21,7 @@ PFX="$PROJECT"/tools
 LD_LIBRARY_PATH="$PFX/lib"
 COMPILER=""
 PYTHON2="python"
+PATCH_QEMU=false
 
 #path to archived source files 
 STORE="$PROJECT"/store
@@ -69,7 +70,10 @@ function install_guest_additions {
 }
 
 function prepare_debian_10 {
-  sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev wget -y
+  sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev \
+    libpixman-1-dev wget gcc-multilib gdb -y
+
+  PATCH_QEMU=true  
 }
 
 function build_gmp {
@@ -152,7 +156,7 @@ function build_mpc {
     rm -rf "$BUILD/$PGM"
   fi
 
-  tar xjf "$STORE/$PGM_SRC" -C "$BUILD"
+  tar zxf "$STORE/$PGM_SRC" -C "$BUILD"
   cd "$BUILD/$PGM"
   ./configure --prefix=$PFX --with-gmp=$PFX
   make
@@ -287,10 +291,30 @@ function build_qemu {
 
 
   cp -r "$STORE/$PGM" "$BUILD"
+  
+  if $PATCH_QEMU
+  then
+    echo "STARTING PATCH"
+    cd "$BUILD"
+    PATCH_DATA='diff -ruN qemu/qga/commands-posix.c qemu-mod/qga/commands-posix.c
+    --- qemu/qga/commands-posix.c	2019-07-15 07:29:50.001000000 +0200
+    +++ qemu-mod/qga/commands-posix.c	2019-07-15 07:32:20.361000000 +0200
+    @@ -28,6 +28,7 @@\n #include "qapi/qmp/qerror.h"
+     #include "qemu/queue.h"
+     #include "qemu/host-utils.h"
+    +#include <sys/sysmacros.h>
+     
+     #ifndef CONFIG_HAS_ENVIRON
+     #ifdef __APPLE__'
+    
+    echo -e "$PATCH_DATA" > myPatch
+    patch -p0 < myPatch
+    rm myPatch
+  fi
+  
   cd "$BUILD/$PGM"
-
   ./configure --disable-werror --disable-kvm --disable-sdl --prefix=$PFX --target-list="i386-softmmu x86_64-softmmu" \
-    --python=$PYTHON2
+    --python=$PYTHON2 $COMPILER
   make
   make install
 
@@ -312,7 +336,7 @@ function setup_git {
 function clone_repos {
   if [ ! -d "$PROJECT/jos" ]; then
     cd $PROJECT
-    git clone git@github.com:bengtbengtsson/mit-2018.git jos
+    git clone https://github.com/bengtbengtsson/mit-2018.git jos
     cd $PROJECT/jos
     git remote rename origin private
     git remote add origin https://pdos.csail.mit.edu/6.828/2018/jos.git
@@ -359,4 +383,4 @@ sleep 1
 #cd $PROJECT/$JOS
 #make V=1
 #make clean
-#make qemu-nox
+#make qemu-noxdiff -ruN qemu/qga/commands-posix.c qemu-mod/qga/commands-posix.c
