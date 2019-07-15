@@ -55,7 +55,7 @@ function prepare_osx {
   brew install wget
   brew install python@2
   brew install python
-  COMPILER="CC=/usr/local/bin/gcc-4.9"
+  COMPILER="--CC=/usr/local/bin/gcc-4.9"
   PYTHON2="/usr/local/bin/python2"
 }
 
