@@ -374,13 +374,13 @@ sleep 1
 #build_gcc
 #build_gdb
 #build_qemu
-#setup_git
+setup_git
 #clone_repos
 #create_setup
 
 #Test the tools
-#export PATH=$PFX/bin:$PATH
-#cd $PROJECT/$JOS
-#make V=1
-#make clean
-#make qemu-noxdiff -ruN qemu/qga/commands-posix.c qemu-mod/qga/commands-posix.c
+#cd $PROJECTS
+#. setup.h
+#cd jos
+#make qemu-nox-gdb
+#open a second terminal, run '. setup' as above and then 'make gdb'
