@@ -331,6 +331,16 @@ function setup_git {
   #Update with the new key at github settings
   git config --global user.email bengt.bengtsson@gmail.com
   git config --global user.name "Bengt Bengtsson"
+
+  #git aliases
+  git config --global alias.co checkout
+  git config --global alias.br branch
+  git config --global alias.ci commit
+  git config --global alias.st status
+
+  git config --global alias.unstage 'reset HEAD --'
+  git config --global alias.last 'log -1 HEAD'
+  #git config --global alias.visual '!gitk'
 }
 
 function clone_repos {
@@ -374,7 +384,7 @@ sleep 1
 #build_gcc
 #build_gdb
 #build_qemu
-setup_git
+#setup_git
 #clone_repos
 #create_setup
 
