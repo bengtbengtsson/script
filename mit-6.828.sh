@@ -65,7 +65,10 @@ function install_guest_additions {
   sudo apt-get upgrade -y
   sudo apt-get install build-essential module-assistant -y
   sudo m-a prepare -y
-  sudo sh /media/cdrom/VBoxLinuxAdditions.run
+  #sudo sh /media/cdrom/VBoxLinuxAdditions.run
+
+  #Ubuntu 18.04
+  sudo sh /media/ben/VBox_GAs_6.0.10/VBoxLinuxAdditions.run
   sudo shutdown -r now
 }
 
@@ -377,19 +380,19 @@ sleep 1
 
 #Uncomment below to install software etc
 #install_guest_additions
-#prepare_debian_10
+prepare_debian_10
 #prepare_osx
-#create_directories
+create_directories
 #build_gmp
 #build_mpfr
 #build_mpc
 #build_binutils
 #build_gcc
 #build_gdb
-#build_qemu
-#setup_git
-#clone_repos
-#create_setup
+build_qemu
+setup_git
+clone_repos
+create_setup
 
 #Test the tools
 #cd $PROJECTS
