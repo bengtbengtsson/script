@@ -1,0 +1,14 @@
+
+Set / Reset window window buttons 
+If you want to get rid of those window control buttons from all the windows run the following command in Terminal
+
+gsettings set org.gnome.desktop.wm.preferences button-layout :
+
+To undo this step, run
+
+gsettings reset org.gnome.desktop.wm.preferences button-layout
+
+sudo apt-get remove gnome-screensaver
+sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra
+
+http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html

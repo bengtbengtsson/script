@@ -72,6 +72,8 @@ function install_guest_additions {
 function prepare_debian_10 {
   sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev \
     libpixman-1-dev wget gcc-multilib gdb -y
+  #Ubuntu 18.04
+  sudo apt install python -y
 
   PATCH_QEMU=true  
 }
@@ -319,6 +321,7 @@ function build_qemu {
   make install
 
   rm -rf "$BUILD/$PGM"
+  cd $PROJECT
 }
 
 function setup_git {
