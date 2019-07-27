@@ -37,3 +37,6 @@ sudo apt remove gnome-shell-extension-ubuntu-dock
 
 #Deathstar wallpaper
 https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=2ahUKEwiVgIjcyNLjAhWlyqYKHYNACkUQjRx6BAgBEAU&url=https%3A%2F%2Fwallpapersafari.com%2Fdeath-star-hd-wallpaper%2F&psig=AOvVaw33LAmJ_YRmLDvrzpmliL-c&ust=1564229923170974
+
+#Install VNC client
+sudo apt install remmina -y
