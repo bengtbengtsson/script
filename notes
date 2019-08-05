@@ -40,3 +40,6 @@ https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=2ahUKEwiVg
 
 #Install VNC client
 sudo apt install remmina -y
+
+# Install tree
+sudo apt install tree -y
