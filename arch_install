@@ -1,0 +1,81 @@
+#!/bin/bash
+
+#virtual machine with EFI activated
+
+#check ip & connection
+ip a
+ping -c 5 google.com
+#systemctl status NetworkManager
+#systemctl start NetworkManager
+
+fdisk -l
+#fdisk /dev/sda
+#g
+#n 1 default +300M
+#n 2 default +30G
+#n 3 default default
+#w
+fdisk -l
+
+mkfs.fat -F32 /dev/sda1
+mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
+
+mount /dev/sda2 /mnt
+mkdir /mnt/home
+mount /dev/sda3 /mnt/home
+
+mount | grep sda
+
+pacstrap -i /mnt base
+
+genfstab -U -p /mnt >> /mnt/etc/fstab
+cat /mnt/etc/fstab
+
+arch-chroot /mnt
+ping -c 5 google.com
+
+pacman -S base-devel grub efibootmgr dosfstools openssh os-prober mtools \
+  linux-headers linux-lts linux-lts-headers network-manager-applet \
+  networkmanager wireless_tools wpa_supplicant dialog 
+
+nano /etc/locale.gen
+#en_US.UTF8 ...
+locale-gen
+
+systemctl enable sshd
+
+mkdir /boot/EFI
+mount /dev/sda1 /boot/EFI
+
+grub-install --target=x86_64-efi --bootloader-id=grub-uefi --recheck
+
+#mkdir /boot/grub/locale ???
+cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+cat /etc/fstab
+
+exit
+
+umount -a
+
+reboot
+
+
+
+
+
+
+
+
+
+
+
+
+
