@@ -52,7 +52,7 @@ sudo apt install code -y
 #Prepare for screen saver Digital rain
 sudo apt-get remove gnome-screensaver -y
 sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra -y
-# add /usr/bin/xscreensaver to start-up application
+# add "/usr/bin/xscreensaver -nosplash" to start-up application
 
 # For vim practice
 #http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
