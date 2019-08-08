@@ -1,20 +1,45 @@
+#!/bin/bash
+
 # Install notes on Ubuntu 18.04
+
+# Install git
+sudo apt install git -y
+
+# Clone scripts repo
+git clone https://github.com/bengtbengtsson/script.git
+git remote add origin2 git@github.com:bengtbengtsson/script.git
+
+# add git alias
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+#Generate new key
+ssh-keygen -t rsa -b 4096 -C bengt.bengtsson@gmail.com
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+#Update github with the new key
+#Copy content from ~/.ssh/id_rsa.pub
+#Update with the new key at github settings
+git config --global user.email bengt.bengtsson@gmail.com
+git config --global user.name "Bengt Bengtsson"
 
 # Install vimtutor
 sudo apt install vim-runtime vim-gtk -y
 
 # Get rid of trashcan on desktop
-Install GNome Tweak tools
-Remove Trash can
-Uninstall Gnome Tweak tool
+#Install GNome Tweak tools
+sudo apt install gnome-tweak-tool -y
+#Remove Trash can
 
 # Get rid of window buttons
 gsettings set org.gnome.desktop.wm.preferences button-layout :
 #gsettings reset org.gnome.desktop.wm.preferences button-layout
 
 # Support for HP P1005 printer
-sudo apt-get install hplip
-sudo hp-setup -i
+sudo apt-get install hplip -y
+#sudo hp-setup -i
 
 # Install Visual Studio Code
 sudo apt update
@@ -25,21 +50,34 @@ sudo apt update
 sudo apt install code -y
 
 #Prepare for screen saver Digital rain
-sudo apt-get remove gnome-screensaver
-sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra
+sudo apt-get remove gnome-screensaver -y
+sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra -y
+# add /usr/bin/xscreensaver to start-up application
 
 # For vim practice
-http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
+#http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
 
 # Get rid of the program bar to the left (need restart)
-sudo apt remove gnome-shell-extension-ubuntu-dock
+sudo apt remove gnome-shell-extension-ubuntu-dock -y
 #sudo apt install gnome-shell-extension-ubuntu-dock
 
 #Deathstar wallpaper
-https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=2ahUKEwiVgIjcyNLjAhWlyqYKHYNACkUQjRx6BAgBEAU&url=https%3A%2F%2Fwallpapersafari.com%2Fdeath-star-hd-wallpaper%2F&psig=AOvVaw33LAmJ_YRmLDvrzpmliL-c&ust=1564229923170974
+wget https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=2ahUKEwiVgIjcyNLjAhWlyqYKHYNACkUQjRx6BAgBEAU&url=https%3A%2F%2Fwallpapersafari.com%2Fdeath-star-hd-wallpaper%2F&psig=AOvVaw33LAmJ_YRmLDvrzpmliL-c&ust=1564229923170974
 
 #Install VNC client
-sudo apt install remmina -y
+#sudo apt install remmina -y
 
 # Install tree
 sudo apt install tree -y
+
+# Install Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+# Install conky
+sudo apt-get install conky-all -y
+mkdir ~/.config/conky
+cp -v ~/script/conky.conf ~/.config/conky/
+#cp -v ~/Desktop/conky.conf ~/.config/conky/
+#wget http://neoncipher.net/v/conky/conky.conf
+# add conky to start-up application
