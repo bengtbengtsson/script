@@ -1,6 +1,8 @@
 #!/bin/bash
-
+#if 0; then
 #virtual machine with EFI activated
+
+loadkeys sv-latin1
 
 #check ip & connection
 ip a
@@ -8,13 +10,36 @@ ping -c 5 google.com
 #systemctl status NetworkManager
 #systemctl start NetworkManager
 
-fdisk -l
-#fdisk /dev/sda
-#g
-#n 1 default +300M
-#n 2 default +30G
-#n 3 default default
-#w
+# to create the partitions programatically (rather than manually)
+# we're going to simulate the manual input to fdisk
+# The sed script strips off all the comments so that we can 
+# document what we're doing in-line with the actual commands
+# Note that a blank line (commented as "defualt" will send a empty
+# line terminated with a newline to take the fdisk default.
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk /dev/sda 
+  g # create gpt partition table
+  n # new partition
+  p # primary partition
+  1 # partition number 1
+    # default - start at beginning of disk 
+  +300M # 100 MB boot parttion
+  n # new partition
+  p # primary partition
+  2 # partion number 2
+    # default, start immediately after preceding partition
+  +30G  
+  n # new partition
+  p # primary partition
+  3 # partition number 3
+    # default, start immidiately after preceding partition
+    # default, use up rest of disk  
+  a # make a partition bootable
+  1 # bootable partition is partition 1 -- /dev/sda1
+  p # print the in-memory partition table
+  w # write the partition table
+  q # and we're done
+EOF
+
 fdisk -l
 
 mkfs.fat -F32 /dev/sda1
@@ -27,33 +52,39 @@ mount /dev/sda3 /mnt/home
 
 mount | grep sda
 
-pacstrap -i /mnt base
+pacstrap /mnt base
 
 genfstab -U -p /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 
+exit 1
+
 arch-chroot /mnt
 ping -c 5 google.com
 
-pacman -S base-devel grub efibootmgr dosfstools openssh os-prober mtools \
+#fi
+pacman -Sy
+pacman -S --noconfirm base-devel grub efibootmgr dosfstools openssh os-prober mtools \
   linux-headers linux-lts linux-lts-headers network-manager-applet \
   networkmanager wireless_tools wpa_supplicant dialog 
-
-nano /etc/locale.gen
+#nano /etc/locale.gen
 #en_US.UTF8 ...
+echo LANG=en_US.UTF-8 > etc/locale.conf
 locale-gen
 
 systemctl enable sshd
+grub-install /dev/sda --target=x86_64-efi --efi-directory=/boot
+grub-mkconfig -o /boot/grub/grup.cfg
 
-mkdir /boot/EFI
-mount /dev/sda1 /boot/EFI
+#mkdir /boot/EFI
+#mount /dev/sda1 /boot/EFI
 
-grub-install --target=x86_64-efi --bootloader-id=grub-uefi --recheck
+#grub-install --target=x86_64-efi --bootloader-id=grub-uefi --recheck
 
 #mkdir /boot/grub/locale ???
-cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
+#cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 
-grub-mkconfig -o /boot/grub/grub.cfg
+#grub-mkconfig -o /boot/grub/grub.cfg
 
 fallocate -l 2G /swapfile
 chmod 600 /swapfile
@@ -61,21 +92,8 @@ mkswap /swapfile
 echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
 cat /etc/fstab
 
-exit
-
+exit 1
+passwd 
 umount -a
 
 reboot
-
-
-
-
-
-
-
-
-
-
-
-
-

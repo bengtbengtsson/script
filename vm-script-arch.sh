@@ -13,7 +13,7 @@ VBoxManage modifyvm Arch-Linux-2 --memory 4096
 VBoxManage modifyvm Arch-Linux-2 --firmware efi64
 VBoxManage createhd \
     --filename "/home/ben/VirtualBox VMs/Arch-Linux-2/Arch-Linux-2.vdi" --size 60000 --format VDI
-
+VBoxManage modifyvm Arch-Linux-2 --vram 30
 VBoxManage storagectl Arch-Linux-2 --name "SATA Controller" --add sata --controller IntelAhci
 
 VBoxManage storageattach Arch-Linux-2 --storagectl "SATA Controller" \
@@ -26,4 +26,4 @@ VBoxManage storagectl Arch-Linux-2 --name "IDE Controller" --add ide --controlle
 VBoxManage storageattach Arch-Linux-2 --storagectl "IDE Controller" --port 1 --device 0 \
    --type dvddrive --medium /home/ben/arch-linux/archlinux-2019.08.01-x86_64.iso
 
-#VBoxManage startvm Arch-Linux-2
+VBoxManage startvm Arch-Linux-2
