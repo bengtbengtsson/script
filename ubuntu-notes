@@ -59,6 +59,7 @@ sudo apt install code -y
 sudo apt-get remove gnome-screensaver -y
 sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra -y
 # add "/usr/bin/xscreensaver -nosplash" to start-up application
+cp xscreensaver.desktop /home/ben/.config/autostart
 
 # For vim practice
 #http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
@@ -81,11 +82,13 @@ sudo apt install tree -y
 # Install Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
 
 # Install conky
 sudo apt-get install conky-all -y
 mkdir ~/.config/conky
 cp -v ~/script/conky.conf ~/.config/conky/
+cp conky.desktop /home/ben/.config/autostart
 conky 2>/dev/null &
 #cp -v ~/Desktop/conky.conf ~/.config/conky/
 #wget http://neoncipher.net/v/conky/conky.conf
