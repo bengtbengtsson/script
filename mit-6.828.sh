@@ -5,10 +5,11 @@ set -e
 
 #General instructions
 #Instructions on how to set up development environment for MIT 6.828 course
-#Tested on OSX 10.13.6 (macOS High Sierra) and Debian 10
+#Tested on OSX 10.13.6 (macOS High Sierra) and Ubuntu 18.04 
 
 #define project directory
 PROJECT="$HOME"/6.828
+
 if [ ! -d "$PROJECT" ]; then
 	echo
   echo "No project directory defined, exiting"
@@ -72,11 +73,9 @@ function install_guest_additions {
   sudo shutdown -r now
 }
 
-function prepare_debian_10 {
+function prepare_ubuntu-18-04 {
   sudo apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev \
-    libpixman-1-dev wget gcc-multilib gdb -y
-  #Ubuntu 18.04
-  sudo apt install python -y
+    libpixman-1-dev wget gcc-multilib gdb python -y
 
   PATCH_QEMU=true  
 }
@@ -380,7 +379,7 @@ sleep 1
 
 #Uncomment below to install software etc
 #install_guest_additions
-prepare_debian_10
+prepare_ubuntu-18-04
 #prepare_osx
 create_directories
 #build_gmp
@@ -390,7 +389,7 @@ create_directories
 #build_gcc
 #build_gdb
 build_qemu
-setup_git
+#setup_git
 clone_repos
 create_setup
 
