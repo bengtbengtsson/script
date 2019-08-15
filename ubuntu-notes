@@ -6,10 +6,20 @@
 
 # Deactivate automatic software updates
 
+# Take a system snapshop
+# sudo add-apt-repository ppa:teejee2008/ppa
+# sudo apt-get update
+# sudo apt-get install timeshift
+# start timeshift and create a repo
+
+# Save gnome settings
+# dconf dump / > dconf-settings.ini
+# Restore settings
+# cat dconf-settings.ini > dconf load /
+
 # Update repos
-echo 'Updating system ...'
-sudo apt update -q && sudo apt upgrade -q -y
-sudo apt install -q gcc make perl -y
+# sudo apt update -q && sudo apt upgrade -q -y
+# sudo apt install -q gcc make perl -y
 # Install guest additions (if virtual machine)
 
 
@@ -41,7 +51,7 @@ sudo apt install -q gnome-tweak-tool -y
 #Remove Trash can
 
 # Get rid of window buttons
-gsettings set org.gnome.desktop.wm.preferences button-layout :
+#gsettings set org.gnome.desktop.wm.preferences button-layout :
 #gsettings reset org.gnome.desktop.wm.preferences button-layout
 
 # Support for HP P1005 printer
@@ -67,7 +77,7 @@ xscreensaver &
 #http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
 
 # Get rid of the program bar to the left (need restart)
-sudo apt remove -q gnome-shell-extension-ubuntu-dock -y
+#sudo apt remove -q gnome-shell-extension-ubuntu-dock -y
 #sudo apt install gnome-shell-extension-ubuntu-dock
 
 #Deathstar wallpaper
@@ -80,8 +90,9 @@ gsettings set org.gnome.desktop.background picture-uri "file:///home/ben/Picture
 
 # Install Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -q -i google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
+sudo apt-get purge firefox -y
 
 # Install conky
 sudo apt-get -q install conky-all -y
