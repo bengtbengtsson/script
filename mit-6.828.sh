@@ -319,7 +319,7 @@ function build_qemu {
   cd "$BUILD/$PGM"
   ./configure --disable-werror --disable-kvm --disable-sdl --prefix=$PFX --target-list="i386-softmmu x86_64-softmmu" \
     --python=$PYTHON2 $COMPILER
-  make
+  make -j2
   make install
 
   rm -rf "$BUILD/$PGM"

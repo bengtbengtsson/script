@@ -6,22 +6,21 @@
 
 # Deactivate automatic software updates
 
+# Update repos
+sudo apt update -q && sudo apt upgrade -q -y
+sudo apt install -q gcc make perl vlc -y
+# Install guest additions (if virtual machine)
+
 # Take a system snapshop
-# sudo add-apt-repository ppa:teejee2008/ppa
-# sudo apt-get update
-# sudo apt-get install timeshift
+sudo add-apt-repository ppa:teejee2008/ppa
+sudo apt-get update
+sudo apt-get install timeshift
 # start timeshift and create a repo
 
 # Save gnome settings
-# dconf dump / > dconf-settings.ini
+dconf dump / > dconf-settings.ini
 # Restore settings
 # cat dconf-settings.ini > dconf load /
-
-# Update repos
-# sudo apt update -q && sudo apt upgrade -q -y
-# sudo apt install -q gcc make perl -y
-# Install guest additions (if virtual machine)
-
 
 # Clone scripts repo
 #git clone https://github.com/bengtbengtsson/script.git
@@ -51,7 +50,7 @@ sudo apt install -q gnome-tweak-tool -y
 #Remove Trash can
 
 # Get rid of window buttons
-#gsettings set org.gnome.desktop.wm.preferences button-layout :
+gsettings set org.gnome.desktop.wm.preferences button-layout :
 #gsettings reset org.gnome.desktop.wm.preferences button-layout
 
 # Support for HP P1005 printer
@@ -104,4 +103,8 @@ conky 2>/dev/null &
 #wget http://neoncipher.net/v/conky/conky.conf
 # add conky to start-up application
 
+# Remove top activity bar. Install and open tweak extensions
+sudo apt install gnome-shell-extension-autohidetopbar
+
 sudo apt autoremove -y
+
