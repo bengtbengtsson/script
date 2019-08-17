@@ -106,5 +106,8 @@ conky 2>/dev/null &
 # Remove top activity bar. Install and open tweak extensions
 sudo apt install gnome-shell-extension-autohidetopbar
 
+# Install haskell
+sudo apt install ghc -y
+
 sudo apt autoremove -y
 
