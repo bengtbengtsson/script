@@ -1,0 +1,19 @@
+Sub complete_users()
+    Sheets("Cognito_data").Range("h1").Value = "Confirmed?"
+    Sheets("Cognito_data").Range("i1").Value = "Month"
+    Sheets("Cognito_data").Range("j1").Value = "Day"
+    Sheets("Cognito_data").Range("k1").Value = "Year"
+    Sheets("Cognito_data").Range("l1").Value = "Date-text"
+    Sheets("Cognito_data").Range("m1").Value = "Date"
+    Sheets("Cognito_data").Range("n1").Value = "Week"
+    
+    Sheets("Cognito_data").Range("h2").Formula = "=IF(AND(B2=""Enabled"", C2=""CONFIRMED"",D2),1,0)"
+    Sheets("Cognito_data").Range("i2").Formula = "=LEFT(G2,3)"
+    Sheets("Cognito_data").Range("j2").Formula = "=MID(G2,4,SEARCH("","",G2,1)-4)"
+    Sheets("Cognito_data").Range("k2").Formula = "=MID(G2,SEARCH("","",G2)+2,4)"
+    Sheets("Cognito_data").Range("l2").Formula = "=CONCATENATE(J2,"" "",I2,"" "",K2)"
+    Sheets("Cognito_data").Range("m2").Formula = "=DATEVALUE(L2)"
+    Sheets("Cognito_data").Range("n2").Formula = "=WEEKNUM(M2)"
+
+    
+End Sub
