@@ -7,14 +7,14 @@
 # Deactivate automatic software updates
 
 # Update repos
-sudo apt update -q && sudo apt upgrade -q -y
-sudo apt install -q gcc make perl vlc -y
+sudo apt update && sudo apt upgrade -y
+sudo apt install gcc make perl vlc -y
 # Install guest additions (if virtual machine)
 
 # Take a system snapshop
-sudo add-apt-repository ppa:teejee2008/ppa
-sudo apt-get update
-sudo apt-get install timeshift
+#sudo add-apt-repository ppa:teejee2008/ppa
+#sudo apt-get update
+#sudo apt-get install timeshift
 # start timeshift and create a repo
 
 # Save gnome settings
@@ -42,11 +42,11 @@ git config --global user.email bengt.bengtsson@gmail.com
 git config --global user.name "Bengt Bengtsson"
 
 # Install vimtutor
-sudo apt install -q vim-runtime vim-gtk -y
+sudo apt install vim-runtime vim-gtk -y
 
 # Get rid of trashcan on desktop
-#Install GNome Tweak tools
-sudo apt install -q gnome-tweak-tool -y
+#Install Gnome Tweak tools
+sudo apt install gnome-tweak-tool -y
 #Remove Trash can
 
 # Get rid of window buttons
@@ -58,19 +58,19 @@ gsettings set org.gnome.desktop.wm.preferences button-layout :
 #sudo hp-setup -i
 
 # Install Visual Studio Code
-sudo apt install -q software-properties-common apt-transport-https wget -y
+sudo apt install software-properties-common apt-transport-https wget -y
 wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" -y
-sudo apt update -q
-sudo apt install -q code -y
+sudo apt update
+sudo apt install code -y
 
 #Prepare for screen saver Digital rain
-sudo apt-get remove -q gnome-screensaver -y
-sudo apt-get install -q xscreensaver xscreensaver-gl-extra xscreensaver-data-extra -y
+sudo apt-get remove gnome-screensaver -y
+sudo apt-get install xscreensaver xscreensaver-gl-extra xscreensaver-data-extra -y
 # add "/usr/bin/xscreensaver -nosplash" to start-up application
 mkdir /home/ben/.config/autostart
 cp /home/ben/script/xscreensaver.desktop /home/ben/.config/autostart/
-xscreensaver &
+xscreensaver & 
 
 # For vim practice
 #http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
@@ -94,7 +94,7 @@ rm google-chrome-stable_current_amd64.deb
 sudo apt-get purge firefox -y
 
 # Install conky
-sudo apt-get -q install conky-all -y
+sudo apt-get install conky-all -y
 mkdir ~/.config/conky
 cp -v ~/script/conky.conf ~/.config/conky/
 cp /home/ben/script/conky.desktop /home/ben/.config/autostart/
