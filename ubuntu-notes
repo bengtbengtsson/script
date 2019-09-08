@@ -76,7 +76,7 @@ xscreensaver &
 #http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
 
 # Get rid of the program bar to the left (need restart)
-#sudo apt remove -q gnome-shell-extension-ubuntu-dock -y
+sudo apt remove gnome-shell-extension-ubuntu-dock -y
 #sudo apt install gnome-shell-extension-ubuntu-dock
 
 #Deathstar wallpaper
@@ -109,5 +109,23 @@ sudo apt install gnome-shell-extension-autohidetopbar
 # Install haskell
 sudo apt install ghc -y
 
+# Install KVM on ubuntu 18.04 (might not work on other distros/versions)
+# Info from https://help.ubuntu.com/community/KVM/Installation
+sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils -y
+#sudo adduser `id -un` libvirtd
+sudo adduser `id -un` libvirt
+sudo adduser `id -un` kvm
+# Verify installation (after restart)
+#> virsh list --all
+# Id Name                 State
+#----------------------------------
+#
+#>
+# Optional graphical manager
+#> sudo apt-get install virt-manager
+
 sudo apt autoremove -y
+
+# restart computer
+sudo shutdown -r now
 
