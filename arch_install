@@ -1,15 +1,23 @@
 #!/bin/bash
 #if 0; then
-#virtual machine with EFI activated
+#EFI machine
 
 loadkeys sv-latin1
 
 #check ip & connection
 ip a
 ping -c 5 google.com
-#systemctl status NetworkManager
-#systemctl start NetworkManager
 
+timedatectl set-ntp true
+
+pacman -Syyy
+pacman -S reflector
+reflector -c Sweden -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+pacman -Syyy
+
+lsblk
+sleep 5
+ 
 # to create the partitions programatically (rather than manually)
 # we're going to simulate the manual input to fdisk
 # The sed script strips off all the comments so that we can 
@@ -22,15 +30,12 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk /dev/sda
   p # primary partition
   1 # partition number 1
     # default - start at beginning of disk 
-  +300M # 100 MB boot parttion
+  +512M # boot parttion
+  t # parttion type
+  1 # efi partition
   n # new partition
   p # primary partition
   2 # partion number 2
-    # default, start immediately after preceding partition
-  +30G  
-  n # new partition
-  p # primary partition
-  3 # partition number 3
     # default, start immidiately after preceding partition
     # default, use up rest of disk  
   a # make a partition bootable
@@ -40,24 +45,23 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk /dev/sda
   q # and we're done
 EOF
 
-fdisk -l
+lsblk
 
 mkfs.fat -F32 /dev/sda1
 mkfs.ext4 /dev/sda2
-mkfs.ext4 /dev/sda3
 
 mount /dev/sda2 /mnt
-mkdir /mnt/home
-mount /dev/sda3 /mnt/home
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
 
-mount | grep sda
+lsblk
+read -n 1
+exit 1
 
 pacstrap /mnt base
 
 genfstab -U -p /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
-
-exit 1
 
 arch-chroot /mnt
 ping -c 5 google.com
@@ -73,13 +77,8 @@ echo LANG=en_US.UTF-8 > etc/locale.conf
 locale-gen
 
 systemctl enable sshd
-grub-install /dev/sda --target=x86_64-efi --efi-directory=/boot
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grup.cfg
-
-#mkdir /boot/EFI
-#mount /dev/sda1 /boot/EFI
-
-#grub-install --target=x86_64-efi --bootloader-id=grub-uefi --recheck
 
 #mkdir /boot/grub/locale ???
 #cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
