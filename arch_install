@@ -11,7 +11,7 @@ ping -c 5 google.com
 timedatectl set-ntp true
 
 pacman -Syyy
-pacman -S reflector
+pacman -S reflector --noconfirm
 reflector -c Sweden -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syyy
 
@@ -43,8 +43,8 @@ EOF
 
 lsblk
 
-mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/sda2
+mkfs.fat -F -F32 /dev/sda1
+mkfs.ext4 -F /dev/sda2
 
 mount /dev/sda2 /mnt
 mkdir /mnt/boot
