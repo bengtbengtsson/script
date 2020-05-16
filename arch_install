@@ -27,19 +27,15 @@ sleep 5
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk /dev/sda 
   g # create gpt partition table
   n # new partition
-  p # primary partition
   1 # partition number 1
     # default - start at beginning of disk 
   +512M # boot parttion
   t # parttion type
   1 # efi partition
   n # new partition
-  p # primary partition
   2 # partion number 2
     # default, start immidiately after preceding partition
     # default, use up rest of disk  
-  a # make a partition bootable
-  1 # bootable partition is partition 1 -- /dev/sda1
   p # print the in-memory partition table
   w # write the partition table
   q # and we're done
