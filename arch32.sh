@@ -4,8 +4,13 @@
 # Set KEYMAP, not persistent
 # loadkeys sv-latin1
 
+# Copy this script as arch32_2.sh
+# Remove everything before, and including 'arch-chroot /mnt'
+# chmod +x arch32_2.sh
+
 # Activate wifi
 # wifi-menu
+# ip a
 
 # Sync
 # pacman -Syyy
@@ -42,6 +47,7 @@ mkfs.ext4 -F /dev/sda2
 mount /dev/sda2 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
+cp script/arch32_2.sh /mnt
 # swapon /dev/...
 
 # Install base packages
@@ -54,7 +60,7 @@ pacstrap /mnt base linux
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Change root
-arch-chroot /mnt
+arch-chroot /mnt ./arch32_2.sh
 
 # Set timezone
 # ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
