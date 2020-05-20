@@ -21,9 +21,6 @@
 # ::1 localhost
 # 127.0.1.1 arch32.localdomain arch32
 
-# Set root password
-# passwd
-
 # Install additional packages
 # pacman -S grub networkmanager wireless_tools wpa_supplicant dialog os-prober \
 #  mtools dosfstools reflector git man sudo
@@ -36,6 +33,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Update services
 systemctl enable NetworkManager
+
+# Set root password
+passwd
 
 # Add user
 # useradd -mG wheel ben
