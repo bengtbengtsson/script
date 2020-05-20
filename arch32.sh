@@ -4,10 +4,6 @@
 # Set KEYMAP, not persistent
 # loadkeys sv-latin1
 
-# Copy this script as arch32_2.sh
-# Remove everything before, and including 'arch-chroot /mnt'
-# chmod +x arch32_2.sh
-
 # Activate wifi
 # wifi-menu
 # ip a
@@ -20,6 +16,12 @@
 
 # Clone script
 # git clone https://github.com/bengtbengtsson/script
+
+# Copy script/arch32.sh to script/arch32_2.sh
+# In script/arch32_2.sh remove everything before, and including 'arch-chroot /mnt'
+# In script/arch32.sh remove everything after 'arch-chroot /mnt', leaving only "... exit umount and reboot..."
+
+# chmod +x arch32_2.sh
 
 # chmod +x script/arch32.sh
 # ./script/arch32.sh
