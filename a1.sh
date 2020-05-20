@@ -33,17 +33,17 @@ reflector -c Germany -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syyy
 
 # Partition drive/s
-# 512M boot, 8GB swap, rest /
+# One partition only, ext4
 
 # Format drives
-mkfs.ext2 -F /dev/sda1
-mkfs.ext4 -F /dev/sda2
+#mkfs.ext2 -F /dev/sda1
+mkfs.ext4 -F /dev/sda1
 # mkswap /dev/...
 
 # Mount drives
-mount /dev/sda2 /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
+mount /dev/sda1 /mnt
+#mkdir /mnt/boot
+#mount /dev/sda1 /mnt/boot
 cp script/a2.sh /mnt
 # swapon /dev/...
 
