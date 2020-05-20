@@ -107,6 +107,7 @@ exit
 umount -a
 
 echo
-echo "Time to reboot..."
+echo "Press any key to reboot..."
 echo
+read -n 1
 #reboot
