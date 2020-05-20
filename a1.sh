@@ -51,7 +51,7 @@ cp script/a2.sh /mnt
 # pacstrap /mnt base base-devel linux linux-lts linux-headers linux-lts-headers \
 #  linux-firmware intel-ucode vi nano grep
 
-pacstrap /mnt base linux-lts linux-firmware
+pacstrap /mnt base base-devel linux-lts linux-lts-headers linux-firmware intel-ucode vi
 
 # Generate fstab
 genfstab -U /mnt >> /mnt/etc/fstab
