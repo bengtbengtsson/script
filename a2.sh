@@ -36,7 +36,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 
 # Set root password
-passwd
+echo -e "updateme\nupdateme" | passwd
 
 # Add user
 useradd -mG wheel ben
