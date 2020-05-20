@@ -7,6 +7,18 @@
 # Activate wifi
 # wifi-menu
 
+# Sync
+# pacman -Syyy
+
+# Install git
+# pacman -S git
+
+# Clone script
+# git clone https://github.com/bengtbengtsson/script
+
+# chmod +x script/arch32.sh
+# ./script/arch32.sh
+
 # Set ntp
 timedatectl set-ntp true
 
@@ -14,7 +26,7 @@ timedatectl set-ntp true
 pacman -Syyy
 
 # Install reflector
-pacman -S reflector
+pacman -S --noconfirm reflector
 reflector -c Germany -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syyy
 
@@ -74,7 +86,7 @@ arch-chroot /mnt
 # pacman -S grub networkmanager wireless_tools wpa_supplicant dialog os-prober \
 #  mtools dosfstools reflector git man sudo
 
-pacman -S grub networkmanager wireless_tools wpa_supplicant dialog os-prober
+pacman -S --noconfirm grub networkmanager wireless_tools wpa_supplicant dialog os-prober
   
 # Install grub  
 grub-install /dev/sda
