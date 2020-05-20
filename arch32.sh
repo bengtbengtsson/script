@@ -22,19 +22,21 @@ pacman -Syyy
 # 512M boot, 8GB swap, rest /
 
 # Format drives
-# mkfs.ext2 /dev/...
-# mkfs.ext4 /dev/...
+mkfs.ext2 -F /dev/sda1
+mkfs.ext4 -F /dev/sda2
 # mkswap /dev/...
 
 # Mount drives
-# mount /dev/... /mnt
-# mkdir /mnt/boot
-# mount /dev/... /mnt/boot
+mount /dev/sda2 /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
 # swapon /dev/...
 
 # Install base packages
-pacstrap /mnt base base-devel linux linux-lts linux-headers linux-lts-headers \
-  linux-firmware intel-ucode vi nano grep
+# pacstrap /mnt base base-devel linux linux-lts linux-headers linux-lts-headers \
+#  linux-firmware intel-ucode vi nano grep
+
+pacstrap /mnt base linux
 
 # Generate fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -43,18 +45,18 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 
 # Set timezone
-ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+# ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
 
 # Sync hardware clock to system time
-hwclock --systohc
+# hwclock --systohc
 
 # Set locale
 # Uncomment en_US.UTF-8 in /etc/locale.gen
-locale-gen
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+# locale-gen
+# echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
 # Set persistent keymap
-echo "KEYMAP=sv-latin1" >> /etc/vconsole.conf
+# echo "KEYMAP=sv-latin1" >> /etc/vconsole.conf
 
 # Set hostname
 # Add arch32 in /etc/hostname
@@ -69,20 +71,22 @@ echo "KEYMAP=sv-latin1" >> /etc/vconsole.conf
 # passwd
 
 # Install additional packages
-pacman -S grub networkmanager wireless_tools wpa_supplicant dialog os-prober \
-  mtools dosfstools reflector git man sudo
+# pacman -S grub networkmanager wireless_tools wpa_supplicant dialog os-prober \
+#  mtools dosfstools reflector git man sudo
+
+pacman -S grub networkmanager wireless_tools wpa_supplicant dialog os-prober
   
 # Install grub  
-grub-install /dev/...  
+grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Update services
 systemctl enable NetworkManager
 
 # Add user
-useradd -mG wheel ben
-passwd ben
-EDITOR=vi visudo # edit wheel group 
+# useradd -mG wheel ben
+# passwd ben
+# EDITOR=vi visudo # edit wheel group 
 
 # Exit chroot
 exit
@@ -90,4 +94,7 @@ exit
 # Unmount all
 umount -a
 
-reboot
+echo
+echo "Time to reboot..."
+echo
+#reboot
