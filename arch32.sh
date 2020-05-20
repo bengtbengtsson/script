@@ -118,4 +118,4 @@ echo
 echo "Press any key to reboot..."
 echo
 read -n 1
-#reboot
+reboot
