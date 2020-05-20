@@ -40,7 +40,7 @@ echo -e "updateme\nupdateme" | passwd
 
 # Add user
 useradd -mG wheel ben
-passwd ben
+echo -e "updateme\nupdateme" | passwd ben
 
 # EDITOR=vi visudo # edit wheel group 
 
