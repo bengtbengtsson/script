@@ -28,6 +28,10 @@ echo "127.0.1.1 arch32.localdomain arch32" >> /etc/hosts
 pacman -S --noconfirm grub networkmanager wireless_tools wpa_supplicant dialog os-prober \
   mtools dosfstools reflector git man sudo
   
+# Update /etc/mkinitcpio.conf
+# HOOKS=(base systemd udev autodetect modconf block filesystems keyboard sd-vconsole fsck)
+# mkinitcpio -p linux-lts
+  
 # Install grub  
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
