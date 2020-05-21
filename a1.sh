@@ -29,7 +29,7 @@ pacman -Syyy
 
 # Install reflector
 pacman -S --noconfirm reflector
-reflector -c Germany -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+reflector -c US -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syyy
 
 # Partition drive
