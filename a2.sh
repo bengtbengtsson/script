@@ -49,5 +49,17 @@ echo -e "updateme\nupdateme" | passwd ben
 # EDITOR=vi visudo # edit wheel group 
 echo "%wheel ALL=(ALL) ALL" | sudo EDITOR="tee -a" visudo
 
+# Install drivers for the graphics card
+pacman -S xf86-video-amdgpu
+
+# Install the display server, and some more
+pacman -S xorg
+# pacman -S xorg xorg-xinit xorg-twm xorg-clock xterm
+# Test with startx
+
+# Install xfce4
+pacman -S xfce4 xfce4-goodies
+# Test with startxfce4
+
 # Exit chroot
 exit
