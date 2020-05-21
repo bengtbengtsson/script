@@ -32,25 +32,17 @@ pacman -S --noconfirm reflector
 reflector -c Germany -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syyy
 
-# Partition drive/s
+# Partition drive
 # One partition only, ext4
 
-# Format drives
-#mkfs.ext2 -F /dev/sda1
+# Format partition
 mkfs.ext4 -F /dev/sda1
-# mkswap /dev/...
 
-# Mount drives
+# Mount drive
 mount /dev/sda1 /mnt
-#mkdir /mnt/boot
-#mount /dev/sda1 /mnt/boot
 cp script/a2.sh /mnt
-# swapon /dev/...
 
 # Install base packages
-# pacstrap /mnt base base-devel linux linux-lts linux-headers linux-lts-headers \
-#  linux-firmware intel-ucode vi nano grep
-
 pacstrap /mnt base base-devel linux-lts linux-lts-headers linux-firmware intel-ucode vi
 
 # Generate fstab
