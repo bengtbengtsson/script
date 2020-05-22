@@ -59,3 +59,9 @@ echo "Press any key to reboot..."
 echo
 read -n 1
 reboot
+
+# Back after reboot into the new system
+
+# Start network
+# nmcli dev wifi con Bengtsson password "password without qoutes" name homewifi
+# Next time use: nmcli con up id homewifi
