@@ -1,0 +1,22 @@
+diff -Naur qemu-origin/hw/9pfs/virtio-9p.c qemu/hw/9pfs/virtio-9p.c
+--- qemu-origin/hw/9pfs/virtio-9p.c	2020-05-23 11:17:56.678278158 +0200
++++ qemu/hw/9pfs/virtio-9p.c	2020-05-23 13:33:36.980217461 +0200
+@@ -20,6 +20,7 @@
+ #include "virtio-9p-coth.h"
+ #include "trace.h"
+ #include "migration/migration.h"
++#include <sys/sysmacros.h>
+ 
+ int open_fd_hw;
+ int total_open_fd;
+diff -Naur qemu-origin/qga/commands-posix.c qemu/qga/commands-posix.c
+--- qemu-origin/qga/commands-posix.c	2020-05-23 11:17:56.818278363 +0200
++++ qemu/qga/commands-posix.c	2020-05-23 13:34:16.090274823 +0200
+@@ -28,6 +28,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/queue.h"
+ #include "qemu/host-utils.h"
++#include <sys/sysmacros.h>
+ 
+ #ifndef CONFIG_HAS_ENVIRON
+ #ifdef __APPLE__
