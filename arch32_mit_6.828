@@ -1,0 +1,145 @@
+#!/bin/bash
+set -e
+
+#Bengt Bengtsson 2020-05-22
+
+# General instructions
+# Instructions on how to set up qemu for MIT 6.828 course as per 
+# https://pdos.csail.mit.edu/6.828/2019/tools.html
+# Tested on Arch Linux 32 bit version
+
+# Define the project directory
+PROJECT="$HOME"/6.828
+
+if [ ! -d "$PROJECT" ]; then
+	echo
+  echo "No project directory defined, exiting"
+  echo
+  exit 1
+fi
+
+# used by ./configure, path to tools install (bin, lib etc)
+PFX="$PROJECT"/tools
+
+# path to archived source files 
+STORE="$PROJECT"/store
+
+# path to build directory
+BUILD="$PROJECT"/build
+
+function create_directories {
+  if [ ! -d "$STORE" ]; then
+    mkdir "$STORE"
+  fi
+
+  if [ -d "$BUILD" ]; then
+    rm -rf "$BUILD"
+  fi
+  mkdir "$BUILD"
+
+  if [ ! -d "$PFX" ]; then
+    mkdir "$PFX"
+  fi  
+}
+
+function prepare_arch_3 {
+ sudo pacman -S --noconfirm wget python2 dtc gdb
+}
+
+function build_qemu {
+  echo
+  echo
+  echo "* * * * * * * * * * Building QEMU * * * * * * * * * *"
+  echo
+  echo
+  sleep 1
+
+  PGM=qemu
+  PGM_GET="https://github.com/mit-pdos/6.828-qemu.git"
+
+  cd $STORE
+
+  git clone $PGM_GET $PGM
+  
+  if [ ! -d "$STORE/$PGM" ]; then
+    echo "No $STORE/$PGM created. Aborting"
+    exit 1
+  fi
+
+  if [ -d "$BUILD/$PGM" ]; then
+    rm -rf "$BUILD/$PGM"
+  fi
+
+  cp -r "$STORE/$PGM" "$BUILD"
+  
+  cd "$BUILD/$PGM/.."
+
+  patch -p0 < ../../script/sys.patch
+  
+  cd "$BUILD/$PGM"
+
+./configure --disable-werror --disable-kvm --disable-sdl --prefix=$PFX \
+     --target-list="i386-softmmu" --python=python2
+  make -j2
+  make install
+
+  rm -rf "$BUILD/$PGM"
+  cd $PROJECT
+}
+
+function setup_git {
+  #Generate new key
+  ssh-keygen -t rsa -b 4096 -C bengt.bengtsson@gmail.com
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_rsa
+  #Update github with the new key
+  #Copy content from ~/.ssh/id_rsa.pub
+  #Update with the new key at github settings
+  git config --global user.email bengt.bengtsson@gmail.com
+  git config --global user.name "Bengt Bengtsson"
+
+  #git aliases
+  git config --global alias.co checkout
+  git config --global alias.br branch
+  git config --global alias.ci commit
+  git config --global alias.st status
+}
+
+function clone_repos {
+  if [ ! -d "$PROJECT/jos" ]; then
+    cd $PROJECT
+    git clone git@github.com:bengtbengtsson/mit-2018-2.git jos
+    #git clone https://github.com/bengtbengtsson/mit-2018-2.git jos
+    cd $PROJECT/jos
+  fi
+  
+
+  if [ ! -d "$PROJECT/xv6" ]; then
+    cd $PROJECT
+    git clone git://github.com/mit-pdos/xv6-public.git xv6
+  fi
+}
+
+function create_setup {
+ cd $PROJECT
+ echo "export PATH=$PROJECT/tools/bin:$PATH" > setup.sh
+ chmod +x setup.sh
+}
+
+#Uncomment below to install software etc
+# create_directories
+# build_qemu
+# setup_git
+# clone_repos
+# create_setup
+
+#Test the toolsqemu-nox-gdb
+# cd $PROJECT
+# . ./setup.sh
+# cd jos
+# make qemu-nox-gdb
+# open a second terminal
+# cd $PROJECT
+# . ./setup.sh
+# cd jos
+# make gdb
