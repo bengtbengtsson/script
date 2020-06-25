@@ -1,1 +1,69 @@
+# Script to install Arch 64 bit version on Intel PC
 
+# Set KEYMAP, not persistent
+# loadkeys sv-latin1
+
+# Activate wifi
+# wifi-menu
+# ip a
+
+# Sync
+# pacman -Syyy
+
+# Install git
+# pacman -S git
+
+# Clone script
+# git clone https://github.com/bengtbengtsson/script
+
+# chmod +x script/arch64_1 script/arch64_2
+
+# ./script/arch64_1
+
+# create sda1 512M EFI partition
+# create sda2 ext4 partition
+
+# Set ntp
+timedatectl set-ntp true
+
+# Sync repos
+pacman -Syyy
+
+# Install reflector
+pacman -S --noconfirm reflector
+reflector -c Sweden -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+pacman -Syyy
+
+# Format partitions
+mkfs.fat -F32 /dev/sda1
+mkfs.ext4 -F /dev/sda2
+
+# Mount drive
+mount /dev/sda2 /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+cp script/arch64_2 /mnt
+
+# Install base packages
+pacstrap /mnt base base-devel linux linux-lts linux-headers linux-lts-headers linux-firmware intel-ucode vim
+
+# Generate fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# Change root
+arch-chroot /mnt ./arch64_2
+
+# Unmount all
+umount -a
+
+echo
+echo "Press any key to reboot..."
+echo
+read -n 1
+reboot
+
+# Back after reboot into the new system
+
+# Start network
+# nmcli dev wifi con Bengtsson password "password without qoutes" name homewifi
+# Next time use: nmcli con up id homewifi
