@@ -23,8 +23,7 @@ echo "::1 localhost" >> /etc/hosts
 echo "127.0.1.1 arch.localdomain arch" >> /etc/hosts
 
 # Install additional packages
-pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet wireless_tools wpa_supplicant dialog os-prober \ 
-  mtools dosfstools base-devel reflector git bluez bluez-utils cups pulseaudio-bluetooth
+pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet wireless_tools wpa_supplicant dialog os-prober mtools dosfstools base-devel reflector git bluez bluez-utils cups pulseaudio-bluetooth
   
 # Update /etc/mkinitcpio.conf
 sed -i '/^HOOKS.*/c\HOOKS=(base systemd udev autodetect modconf block filesystems keyboard sd-vconsole fsck)' /etc/mkinitcpio.conf
